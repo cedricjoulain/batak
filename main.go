@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"time"
 
 	"gobot.io/x/gobot/drivers/gpio"
 	"gobot.io/x/gobot/platforms/raspi"
@@ -59,6 +60,7 @@ func (b *Batak) Test() (err error) {
 				break
 			}
 			if val == 0 {
+				log.Printf("button %s(%d) ON\n", button, i)
 				b.leds[i].On()
 			} else {
 				b.leds[i].Off()
@@ -67,6 +69,7 @@ func (b *Batak) Test() (err error) {
 		if err != nil {
 			break
 		}
+		time.Sleep(time.Millisecond)
 	}
 	return
 }
