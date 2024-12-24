@@ -28,16 +28,17 @@ func NewBatak(buttons, leds []string) (batak *Batak, err error) {
 	}
 	batak = &Batak{
 		r:       raspi.NewAdaptor(),
-		buttons: buttons,
+		buttons: make([]string, len(buttons)),
 		leds:    make([]*gpio.LedDriver, len(leds)),
 	}
 	if err = batak.r.Connect(); err != nil {
 		return
 	}
 	// Test buttons
-	for _, button := range batak.buttons {
+	for i, button := range batak.buttons {
+		batak.buttons[i] = button
 		if _, err = batak.r.DigitalRead(button); err != nil {
-			err = fmt.Errorf("error reading button %s:%s", button, err)
+			err = fmt.Errorf("reading button %s:%s", button, err)
 		}
 	}
 	// Start and Off leds
@@ -54,7 +55,7 @@ func (b *Batak) Test() (err error) {
 	for {
 		for i, button := range b.buttons {
 			if val, err = b.r.DigitalRead(button); err != nil {
-				err = fmt.Errorf("error reading button %s(%d):%s", button, i, err)
+				err = fmt.Errorf("reading button %s(%d):%s", button, i, err)
 				break
 			}
 			if val == 0 {
@@ -77,6 +78,6 @@ func main() {
 		log.Fatalf("Unable to start Batak:%s", err)
 	}
 	if err = batack.Test(); err != nil {
-		log.Fatalf("Batak stopped on error:%s", err)
+		log.Fatalf("Batak stopped on:%s", err)
 	}
 }
