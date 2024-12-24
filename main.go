@@ -1,69 +1,82 @@
 package main
 
 import (
-        "fmt"
-        "log"
-        "strings"
-        "time"
+	"fmt"
+	"log"
 
-        "gobot.io/x/gobot/drivers/gpio"
-        "gobot.io/x/gobot/platforms/raspi"
+	"gobot.io/x/gobot/drivers/gpio"
+	"gobot.io/x/gobot/platforms/raspi"
 )
-var buttons = []string{
-        "3", "5", "7", "8", "10", "24", "26", "29", "31",
-}
-func main() {
-        r := raspi.NewAdaptor()
-        r.Connect()
-        for {
-                var b strings.Builder
-                for _, io := range buttons {
-                        val, err := r.DigitalRead(io)
-                        if err == nil {
-                                fmt.Fprintf(&b, "%s %d ", io, val)
-                        } else {
-                                fmt.Fprintf(&b, "%s %d %s ", io, val, err.Error())
-                        }
-                }
-                fmt.Println(b.String())
-        }
-        return
-        led := gpio.NewLedDriver(r, "38")
-        led.Start()
-        led.Off()
-        start := time.Now()
-        count := 0
-        for {
-                if val, err := r.DigitalRead("37"); err == nil {
-                        count++
-                        if val == 1 {
-                                led.Off()
-                        } else {
-                                led.On()
-                        }
-                        if time.Now().Sub(start).Seconds() > 1.0 {
-                                log.Println(count, "read in 1s")
-                                count = 0
-                                start = time.Now()
-                        }
-                }
-        }
-        button := gpio.NewButtonDriver(r, "38", time.Millisecond)
-        button.Start()
 
-        buttonEvents := button.Subscribe()
-        count = 0
-        for {
-                select {
-                case event := <-buttonEvents:
-                        count++
-                        fmt.Println("Event:", count, event.Name, event.Data)
-                        switch event.Name {
-                        case gpio.ButtonPush:
-                                led.Off()
-                        case gpio.ButtonRelease:
-                                led.On()
-                        }
-                }
-        }
+var (
+	buttons = []string{"31", "33", "35", "37"}
+	leds    = []string{"32", "36", "38", "40"}
+)
+
+type Batak struct {
+	r       *raspi.Adaptor
+	buttons []string
+	leds    []*gpio.LedDriver
+}
+
+func NewBatak(buttons, leds []string) (batak *Batak, err error) {
+	if len(buttons) != len(leds) {
+		err = fmt.Errorf(
+			"should have same numbers of buttons(%d) and leds(%d)",
+			len(buttons), len(leds))
+		return
+	}
+	batak = &Batak{
+		r:       raspi.NewAdaptor(),
+		buttons: buttons,
+		leds:    make([]*gpio.LedDriver, len(leds)),
+	}
+	if err = batak.r.Connect(); err != nil {
+		return
+	}
+	// Test buttons
+	for _, button := range batak.buttons {
+		if _, err = batak.r.DigitalRead(button); err != nil {
+			err = fmt.Errorf("error reading button %s:%s", button, err)
+		}
+	}
+	// Start and Off leds
+	for i, led := range leds {
+		batak.leds[i] = gpio.NewLedDriver(batak.r, led)
+		batak.leds[i].Start()
+		batak.leds[i].Off()
+	}
+	return
+}
+
+func (b *Batak) Test() (err error) {
+	var val int
+	for {
+		for i, button := range b.buttons {
+			if val, err = b.r.DigitalRead(button); err != nil {
+				err = fmt.Errorf("error reading button %s(%d):%s", button, i, err)
+				break
+			}
+			if val == 0 {
+				b.leds[i].On()
+			} else {
+				b.leds[i].Off()
+			}
+		}
+		if err != nil {
+			break
+		}
+	}
+	return
+}
+
+func main() {
+	log.Println("Batak 4 started")
+	batack, err := NewBatak(buttons, leds)
+	if err != nil {
+		log.Fatalf("Unable to start Batak:%s", err)
+	}
+	if err = batack.Test(); err != nil {
+		log.Fatalf("Batak stopped on error:%s", err)
+	}
 }
