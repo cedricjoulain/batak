@@ -20,7 +20,7 @@ def test():
 
 def game():
     """One 60 seconds game"""
-    target = random.randint(0, len(const.LEDS))
+    target = random.randint(0, len(const.LEDS)-1)
     score = 0
     GPIO.output(const.LEDS[target], 1)
     start = time.time()
@@ -37,9 +37,9 @@ def game():
             #GOOD!
             score += 1
             GPIO.output(const.LEDS[target], 0)
-            newtarget = random.randint(0, len(const.LEDS))
+            newtarget = random.randint(0, len(const.LEDS)-1)
             while newtarget == target:
-                newtarget = random.randint(0, len(const.LEDS))
+                newtarget = random.randint(0, len(const.LEDS)-1)
             target = newtarget
             GPIO.output(const.LEDS[target], 1)
         else:
