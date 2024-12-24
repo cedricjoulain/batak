@@ -5,22 +5,20 @@ import (
 	"log"
 	"time"
 
-	"gobot.io/x/gobot/drivers/gpio"
-	"gobot.io/x/gobot/platforms/raspi"
+	rpio "github.com/stianeikeland/go-rpio/v4"
 )
 
 var (
-	buttons = []string{"31", "33", "35", "37"}
-	leds    = []string{"32", "36", "38", "40"}
+	buttons = []int{26} // {"31", "33", "35", "37"}
+	leds    = []int{21} // {"32", "36", "38", "40"}
 )
 
 type Batak struct {
-	r       *raspi.Adaptor
-	buttons []string
-	leds    []*gpio.LedDriver
+	buttons []rpio.Pin
+	leds    []rpio.Pin
 }
 
-func NewBatak(buttons, leds []string) (batak *Batak, err error) {
+func NewBatak(buttons, leds []int) (batak *Batak, err error) {
 	if len(buttons) != len(leds) {
 		err = fmt.Errorf(
 			"should have same numbers of buttons(%d) and leds(%d)",
@@ -28,42 +26,30 @@ func NewBatak(buttons, leds []string) (batak *Batak, err error) {
 		return
 	}
 	batak = &Batak{
-		r:       raspi.NewAdaptor(),
-		buttons: make([]string, len(buttons)),
-		leds:    make([]*gpio.LedDriver, len(leds)),
-	}
-	if err = batak.r.Connect(); err != nil {
-		return
+		buttons: make([]rpio.Pin, len(buttons)),
+		leds:    make([]rpio.Pin, len(leds)),
 	}
 	// Test buttons
 	for i, button := range buttons {
-		batak.buttons[i] = button
-		if _, err = batak.r.DigitalRead(button); err != nil {
-			err = fmt.Errorf("reading button %s:%s", button, err)
-		}
+		batak.buttons[i] = rpio.Pin(button)
+		batak.buttons[i].Input()
 	}
 	// Start and Off leds
 	for i, led := range leds {
-		batak.leds[i] = gpio.NewLedDriver(batak.r, led)
-		batak.leds[i].Start()
-		batak.leds[i].Off()
+		batak.leds[i] = rpio.Pin(led)
+		batak.leds[i].Output()
+		batak.leds[i].Low()
 	}
 	return
 }
 
 func (b *Batak) Test() (err error) {
-	var val int
 	for {
 		for i, button := range b.buttons {
-			if val, err = b.r.DigitalRead(button); err != nil {
-				err = fmt.Errorf("reading button %s(%d):%s", button, i, err)
-				break
-			}
-			if val == 0 {
-				log.Printf("button %s(%d) ON\n", button, i)
-				b.leds[i].On()
+			if button.Read() == rpio.Low {
+				b.leds[i].High()
 			} else {
-				b.leds[i].Off()
+				b.leds[i].Low()
 			}
 		}
 		if err != nil {
@@ -75,6 +61,8 @@ func (b *Batak) Test() (err error) {
 }
 
 func main() {
+	rpio.Open()
+	defer rpio.Close()
 	log.Println("Batak 4 started")
 	batack, err := NewBatak(buttons, leds)
 	if err != nil {
