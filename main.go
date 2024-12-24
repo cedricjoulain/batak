@@ -35,7 +35,7 @@ func NewBatak(buttons, leds []string) (batak *Batak, err error) {
 		return
 	}
 	// Test buttons
-	for i, button := range batak.buttons {
+	for i, button := range buttons {
 		batak.buttons[i] = button
 		if _, err = batak.r.DigitalRead(button); err != nil {
 			err = fmt.Errorf("reading button %s:%s", button, err)
