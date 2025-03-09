@@ -6,6 +6,10 @@ import time
 import const
 from adapter import GPIO
 
+logger = logging.getLogger(__name__)
+#add to previous log
+logging.basicConfig(filename=f'acf1.log', format='%(asctime)s %(message)s', encoding='utf-8', level=logging.DEBUG)
+
 def initIO():
     """Initialise all board input output and displays"""
     GPIO.setmode(GPIO.BCM)
@@ -57,17 +61,17 @@ def game():
 
 def main():
     """Batak game, maximum light switch off in 60 seconds"""
-    print("Initializing inputs/outputs and displays")
+    logger.info("Initializing inputs/outputs and displays")
     initIO()
 
     try:
-        print("Start game in 10 seconds")
+        logger.info("Start game in 10 seconds")
         time.sleep(10)
-        print("Game started")
+        logger.info("Game started")
         score = game()
-        print("Your score is", score)
+        logger.info(f"Your score is {score}")
     except KeyboardInterrupt:
-        print("Stop and cleanup")
+        logger.info("Stop and cleanup")
         GPIO.cleanup()
 
 if __name__ == "__main__":

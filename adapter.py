@@ -27,6 +27,9 @@ if platform == "darwin":
         def input(self, gpio):
             """mock output"""
             return False
+        def cleanup(self, gpio):
+            """mock cleanup"""
+            return
 
     GPIO = MyGPIO()
 else:
