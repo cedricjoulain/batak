@@ -4,7 +4,7 @@ import random
 import time
 
 import const
-from adapter import GPIO
+from adapter import GPIO, get_displays
 
 logger = logging.getLogger(__name__)
 #add to previous log
@@ -63,6 +63,7 @@ def main():
     """Batak game, maximum light switch off in 60 seconds"""
     logger.info("Initializing inputs/outputs and displays")
     initIO()
+    display1, display2 = get_displays()
 
     try:
         logger.info("Start game in 10 seconds")
