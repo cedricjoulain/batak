@@ -6,3 +6,4 @@ LEDS = [12, 16, 20, 21]
 TIME = 30
 
 ACF1 = "ACF1"
+EMPTY = "    "

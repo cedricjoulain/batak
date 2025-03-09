@@ -2,6 +2,7 @@
 from sys import platform
 
 if platform == "darwin":
+    import random
     # OS X
     #Mock GPIO
     class MyGPIO:
@@ -25,7 +26,9 @@ if platform == "darwin":
             return
 
         def input(self, gpio):
-            """mock unpressed input"""
+            """mock input, pressed is False"""
+            if random.randint(0, 10) == 0:
+                return False
             return True
 
         def cleanup(self):
@@ -39,6 +42,9 @@ if platform == "darwin":
         
         def print(self, str):
             print(self.indent, str)
+
+        def fill(self, nbr):
+            return
 
     GPIO = MyGPIO()
     def get_displays():
