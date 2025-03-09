@@ -1,10 +1,9 @@
-"""Batak game, maximum light switch off in 60 seconds"""
+"""Batak game, maximum light switch off in TIME seconds"""
 import random
 import time
 
-import RPi.GPIO as GPIO
-
 import const
+from adapter import GPIO
 
 GPIO.setmode(GPIO.BCM)
 
@@ -24,7 +23,7 @@ def game():
     score = 0
     GPIO.output(const.LEDS[target], 1)
     start = time.time()
-    while time.time() - start < 60:
+    while time.time() - start < const.TIME:
         found = -1
         for i, button in enumerate(const.BUTTONS):
             if not GPIO.input(button):
