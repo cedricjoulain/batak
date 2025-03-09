@@ -64,16 +64,43 @@ def main():
     logger.info("Initializing inputs/outputs and displays")
     initIO()
     display1, display2 = get_displays()
-
-    try:
-        logger.info("Start game in 10 seconds")
-        time.sleep(10)
-        logger.info("Game started")
-        score = game()
-        logger.info(f"Your score is {score}")
-    except KeyboardInterrupt:
-        logger.info("Stop and cleanup")
-        GPIO.cleanup()
+    best = 0
+    score = 0
+    # for ever
+    start = time.time()
+    while True:
+        try:
+            #show best score
+            display1.print(str(best).ljust(4))
+            #Show ACF1 or current score
+            if int(time.time() - start)%2 == 0:
+                display2.print(const.ACF1)
+            else:
+                display2.print(str(score).ljust(4))
+            #any button touched ???
+            pressed = False
+            for button in const.BUTTONS:
+                if not GPIO.input(button):
+                    pressed = True
+            if pressed:
+                #play !!!
+                logger.info("Start game in 10 seconds")
+                time.sleep(10)
+                logger.info("Game started")
+                score = game()
+                if best < score:
+                    logger.info(f"Your score is {score}")
+                else:
+                    best = score
+                    logger.info(f"BEST SCORE {score}")
+            else:
+                #very small pause
+                time.sleep(0.05)
+        except KeyboardInterrupt:
+            logger.info("Stop and cleanup")
+            GPIO.cleanup()
+            #bye bye
+            return
 
 if __name__ == "__main__":
     main()

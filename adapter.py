@@ -25,8 +25,8 @@ if platform == "darwin":
             return
 
         def input(self, gpio):
-            """mock output"""
-            return False
+            """mock unpressed input"""
+            return True
 
         def cleanup(self):
             """mock cleanup"""
