@@ -1,6 +1,18 @@
 """Platform dependent code"""
 from sys import platform
 
+class MyDisplay():
+    """Mock 7 leds right.left displays"""
+    def __init__(self, indent):
+        self.indent = indent
+
+    def print(self, str):
+        print(self.indent, str)
+
+    def fill(self, nbr):
+        return
+
+
 if platform == "darwin":
     import random
     # OS X
@@ -35,17 +47,6 @@ if platform == "darwin":
             """mock cleanup"""
             return
 
-    class MyDisplay():
-        """Mock 7 leds right.left displays"""
-        def __init__(self, indent):
-            self.indent = indent
-        
-        def print(self, str):
-            print(self.indent, str)
-
-        def fill(self, nbr):
-            return
-
     GPIO = MyGPIO()
     def get_displays():
         return MyDisplay(""), MyDisplay("     ")
@@ -57,6 +58,7 @@ else:
 
     def get_displays():
         """Returns the 2 x 4 x 7 leds displays"""
+        return MyDisplay(""), MyDisplay("     ")
         i2c = board.I2C()
         display1 = BigSeg7x4(i2c, address=0x71)
         display2 = BigSeg7x4(i2c, address=0x70)
