@@ -1,11 +1,20 @@
 """Batak game, maximum light switch off in TIME seconds"""
+import logging
 import random
 import time
 
 import const
 from adapter import GPIO
 
-GPIO.setmode(GPIO.BCM)
+def initIO():
+    """Initialise all board input output and displays"""
+    GPIO.setmode(GPIO.BCM)
+    for button in const.BUTTONS:
+        GPIO.setup(button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+    for led in const.LEDS:
+        GPIO.setup(led, GPIO.OUT)
+        GPIO.output(led, 0)
 
 def test():
     """Light led if button on"""
@@ -48,12 +57,8 @@ def game():
 
 def main():
     """Batak game, maximum light switch off in 60 seconds"""
-    for button in const.BUTTONS:
-        GPIO.setup(button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
-    for led in const.LEDS:
-        GPIO.setup(led, GPIO.OUT)
-        GPIO.output(led, 0)
+    print("Initializing inputs/outputs and displays")
+    initIO()
 
     try:
         print("Start game in 10 seconds")
