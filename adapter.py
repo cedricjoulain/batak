@@ -27,7 +27,8 @@ if platform == "darwin":
         def input(self, gpio):
             """mock output"""
             return False
-        def cleanup(self, gpio):
+
+        def cleanup(self):
             """mock cleanup"""
             return
 
