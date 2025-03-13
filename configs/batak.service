@@ -4,7 +4,7 @@ ConditionPathExists=/home/pi/dev/batak/venv/bin/python
 After=multi-user.target
 
 [Service]
-Type=idle
+Type=exec
 
 User=pi
 WorkingDirectory=/home/pi/dev/batak
