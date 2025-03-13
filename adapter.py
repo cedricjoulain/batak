@@ -58,7 +58,6 @@ else:
 
     def get_displays():
         """Returns the 2 x 4 x 7 leds displays"""
-        return MyDisplay(""), MyDisplay("     ")
         i2c = board.I2C()
         display1 = BigSeg7x4(i2c, address=0x71)
         display2 = BigSeg7x4(i2c, address=0x70)

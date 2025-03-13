@@ -34,11 +34,11 @@ def test():
 
 def spad(nbr):
     """int as left justified string of size 4"""
-    return str(nbr).ljust(4)
+    return str(nbr).rjust(4)
 
 def zpad(nbr):
     """int as zero pad of size 4"""
-    return f"{nbr:03d}".ljust(4)
+    return f"{nbr:03d}".rjust(4)
 
 def game(display1, display2):
     """One 60 seconds game"""
