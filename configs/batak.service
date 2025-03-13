@@ -8,7 +8,7 @@ Type=idle
 
 User=pi
 WorkingDirectory=/home/pi/dev/batak
-ExecStart=./venv/bin/python batak.py
+ExecStart=/home/pi/dev/batak/venv/bin/python batak.py
 
 Restart=always
 RestartSec=3
