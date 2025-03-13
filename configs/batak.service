@@ -1,0 +1,9 @@
+[Unit]
+Description="4 Buttons 30 seconds BATAK"
+ConditionPathExists=/home/pi/dev/batak/venv/bin/python
+After=multi-user.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/dev/batak
+ExecStart=./venv/bin/python batak.py
