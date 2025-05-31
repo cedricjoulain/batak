@@ -6,7 +6,6 @@ DefaultDependencies=false
 [Service]
 Type=exec
 
-User=pi
 WorkingDirectory=/home/pi/dev/batak
 ExecStart=/home/pi/dev/batak/venv/bin/python batak.py
 
