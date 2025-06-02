@@ -1,5 +1,9 @@
 """Platform dependent code"""
 from sys import platform
+try:
+    from typing import Dict, List, Optional, Tuple, Union
+except ImportError:
+    pass
 
 class MyDisplay():
     """Mock 7 leds right.left displays"""
@@ -115,8 +119,6 @@ else:
     from adafruit_ht16k33.ht16k33 import HT16K33
 
     try:
-        from typing import Dict, List, Optional, Tuple, Union
-
         from busio import I2C
     except ImportError:
         pass
