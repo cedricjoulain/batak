@@ -34,7 +34,7 @@ difference() {
         }
     }
 }
-scale([1, 0.9, 1])
+scale([0.97, 0.97, 1])
 slick();
 }
 // model
