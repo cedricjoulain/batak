@@ -111,9 +111,6 @@ if platform == "darwin":
 else:
     import RPi.GPIO as GPIO
     import board
-<<<<<<< HEAD
-    from adafruit_ht16k33.segments import Seg14x4
-=======
     from adafruit_ht16k33.segments import BigSeg7x4, CHARS
     from adafruit_ht16k33.ht16k33 import HT16K33
 
@@ -237,7 +234,6 @@ else:
 
             if self._auto_write:
                 self.show()
->>>>>>> dev
 
     def get_displays():
         """Returns the 2 x 4 x 7 leds displays"""
