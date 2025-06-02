@@ -29,7 +29,7 @@ cylinder(100, r=4/2, center = true, $fn=6);
 module bolt() union() {
 cylinder(16, r=4.5/2, center = true);
 translate([0, 0, 6])
-cylinder(4, r=7.5/2, center = true);
+cylinder(4, r=10/2, center = true);
 };
 
 module top_end()
@@ -67,6 +67,13 @@ difference() {
     bolt();
 };
 
+module logo_serli() {
+    translate([67, 14, 1])
+    scale([1/7, 1/7, 1/128])
+    rotate([0, 0, 180])
+    surface(file = "images/serli-logo.png", center = true);
+};
+
 module top_middle()
 difference() {
     union() {
@@ -79,11 +86,8 @@ difference() {
         cube([2*60+10, 15, 2], center = true);
         translate([60, -22.5, 0])
         cube([2*60+10, 15, 2], center = true);
-        translate([67, 14, 1])
-        scale([1/7, 1/7, 1/128])
-        rotate([0, 0, 180])
-        surface(file = "images/serli-logo.png", center = true);
     }
+    logo_serli();
     button_hole();
     translate([2*60+10, 0, 0])
     button_hole();
@@ -119,11 +123,7 @@ difference() {
   }
   if (!nohole) {
     translate([0, 0, 6])
-    cylinder(20, r=4.5/2, center = true);
-    translate([0, 0, 6])
-    cylinder(4.5, r=8.25/2, center = true, $fn=6);
-    translate([4, 0, 6])
-    cube([8, 8, 4.5], center=true);
+    cylinder(25, r=4.2/2, center = true);
   }
 };
 
@@ -327,7 +327,9 @@ translate([60+5-20, -20, 25-5])
 cylinder(8, r=1.9/2, center = true);
 };
 
-//top_middle();
+//logo_serli();
+top_middle();
+//foot();
 /*
 translate([0, 0, -25])
 down_middle();
@@ -344,8 +346,7 @@ rotate([0, 0, 180]) {
 translate([130, 0, 0]) {
   top_end();
   translate([0, 0, -25])
-*/
-  down_end();/*
+  down_end();
   translate([2*60+10, 0, 0])
   foot(true);
 };
