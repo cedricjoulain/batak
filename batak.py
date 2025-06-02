@@ -9,7 +9,7 @@ from adapter import GPIO, get_displays
 logger = logging.getLogger(__name__)
 #add to previous log
 logging.basicConfig(
-    filename="acf1.log",
+    filename="serli.log",
     format='%(asctime)s %(message)s', encoding='utf-8', level=logging.DEBUG)
 
 def init_io():
