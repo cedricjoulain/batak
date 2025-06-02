@@ -198,8 +198,8 @@ else:
 
         def _adjusted_index(self, index: int) -> int:
             # Determine which part of the buffer to use and adjust index
-            # this start at 1 ...
-            index += 1
+            # this start at 2 ...
+            index += 2
             offset = (index // self._bytes_per_buffer()) * self._buffer_size
             return offset + index % self._bytes_per_buffer()
 
