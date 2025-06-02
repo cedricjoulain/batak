@@ -92,13 +92,13 @@ def game(display1, display2):
 def starter(display):
     """F1 still starter"""
     time.sleep(1)
-    display.print("   0")
+    display.print("   \x7f")
     time.sleep(1)
-    display.print("  00")
+    display.print("  \x7f\x7f")
     time.sleep(1)
-    display.print(" 000")
+    display.print(" \x7f\x7f\x7f")
     time.sleep(1)
-    display.print("0000")
+    display.print("\x7f\x7f\x7f\x7f")
     time.sleep(1)
     display.fill(0)
 
@@ -117,7 +117,7 @@ def main():
             display1.print(zpad(best))
             #Show ACF1 or current score
             if int(time.time() - start)%2 == 0:
-                display2.print(const.ACF1)
+                display2.print(const.SERLI)
             else:
                 display2.print(zpad(score))
             #any button touched ???

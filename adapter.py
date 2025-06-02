@@ -158,6 +158,12 @@ else:
                 #erase all
                 self.fill(0)
                 self._text(value)
+            elif isinstance(value, list):
+                self.fill(0)
+                # Set the digit bitmask value at the appropriate position.
+                for index, bitmask in enumerate(value):
+                    self._set_buffer(self._adjusted_index(index * 2), bitmask & 0xFF)
+                    self._set_buffer(self._adjusted_index(index * 2 + 1), (bitmask >> 8) & 0xFF)
             else:
                 raise ValueError(f"Unsupported display value type: {type(value)}")
             if self._auto_write:
