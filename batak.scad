@@ -29,7 +29,7 @@ cylinder(100, r=4/2, center = true, $fn=6);
 module bolt() union() {
 cylinder(16, r=4.5/2, center = true);
 translate([0, 0, 6])
-cylinder(4, r=10/2, center = true);
+cylinder(4, r=8/2, center = true);
 };
 
 module top_end()
@@ -263,20 +263,6 @@ difference() {
         cube([2*60+10, 15, 2], center = true);
         translate([60, -22.5, 0])
         cube([2*60+10, 15, 2], center = true);
-        translate([130, 0, 25])
-        difference() {
-        intersection() {
-          difference() {
-            translate([0, 0, -29])
-            tyre(grooves);
-            cylinder(1000, r=55/2, center = true);
-          }
-          translate([49.5, 0, -1])
-          cube([100, 60, 50], center=true);
-         }
-         translate([0, 0, 1])
-         cylinder(4, r=61/2, center =true);
-        }
     }
     translate([-49.5, 0, 0])
     cube([100, 100, 10], center=true);
@@ -300,10 +286,6 @@ difference() {
     cube([10.5, 10.5, 100], center=true);
     translate([2*60+10-anchorpos, -anchorpos,0])
     cube([10.5, 10.5, 100], center=true);
-    translate([2*60+10+anchorpos, anchorpos,0])
-    cube([10.5, 10.5, 100], center=true);
-    translate([2*60+10+anchorpos, -anchorpos,0])
-    cube([10.5, 10.5, 100], center=true);
 
     translate([2*60+10, 0, 0])
     cylinder(1000, r=50/2, center = true);
@@ -313,23 +295,42 @@ translate([60+5, (12+36)/2, (21/2)-1])
 cube([60, 12, 21], center=true);
 translate([60+5, -(12+36)/2, (21/2)-1])
 cube([60, 12, 21], center=true);
-translate([60+5, 20, 25-5])
-cylinder(8, r=1.9/2, center = true);
-translate([60+5+20, 20, 25-5])
-cylinder(8, r=1.9/2, center = true);
-translate([60+5-20, 20, 25-5])
-cylinder(8, r=1.9/2, center = true);
-translate([60+5, -20, 25-5])
-cylinder(8, r=1.9/2, center = true);
-translate([60+5+20, -20, 25-5])
-cylinder(8, r=1.9/2, center = true);
-translate([60+5-20, -20, 25-5])
-cylinder(8, r=1.9/2, center = true);
+};
+
+
+module down_end_black()
+difference() {
+    union() {
+        translate([130, 0, 25])
+        difference() {
+        intersection() {
+          difference() {
+            translate([0, 0, -29])
+            tyre(grooves);
+            cylinder(1000, r=55/2, center = true);
+          }
+          translate([49.5, 0, -1])
+          cube([100, 60, 50], center=true);
+         }
+         translate([0, 0, 1])
+         cylinder(4, r=61/2, center =true);
+        }
+    }
+
+    translate([2*60+10+anchorpos, anchorpos,0])
+    cube([10.5, 10.5, 100], center=true);
+    translate([2*60+10+anchorpos, -anchorpos,0])
+    cube([10.5, 10.5, 100], center=true);
+
+    translate([2*60+10, 0, 0])
+    cylinder(1000, r=50/2, center = true);
 };
 
 //logo_serli();
-top_middle();
+//top_middle();
 //foot();
+//down_end_black();
+down_end();
 /*
 translate([0, 0, -25])
 down_middle();
