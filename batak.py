@@ -68,7 +68,8 @@ def game(display1, display2):
             target = newtarget
             GPIO.output(const.LEDS[target], 1)
         else:
-            time.sleep(0.4)
+            if found != -1:
+                time.sleep(0.4)
     #show last
     display1.print(zpad(score))
     display2.print(spad(0))
