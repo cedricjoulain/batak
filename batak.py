@@ -41,7 +41,7 @@ def zpad(nbr):
     return f"{nbr:03d}".rjust(4)
 
 def game(display1, display2):
-    """One 60 seconds game"""
+    """One 30 seconds game"""
     target = random.randint(0, len(const.LEDS)-1)
     score = 0
     GPIO.output(const.LEDS[target], 1)
@@ -68,7 +68,7 @@ def game(display1, display2):
             target = newtarget
             GPIO.output(const.LEDS[target], 1)
         else:
-            time.sleep(0.05)
+            time.sleep(0.4)
     #show last
     display1.print(zpad(score))
     display2.print(spad(0))
