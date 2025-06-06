@@ -137,21 +137,14 @@ difference() {
  };
 if (end) {
     difference() {
-    intersection() {
-       translate([0, 0, -29])
-       tyre(grooves);
-       union() {
-         translate([anchorpos, anchorpos,-13.6])
-         anchor(true);
-         translate([anchorpos, anchorpos+2,-13.6])
-         anchor(true);
-         translate([anchorpos, -anchorpos,-13.6])
-         anchor(true);
-         translate([anchorpos, -anchorpos-2,-13.6])
-         anchor(true);
-       }
-      }
-      cylinder(4, r=61/2, center = true);     
+        intersection() {
+            translate([0, 0, -29])
+            tyre(grooves);
+            translate([51, 0,-12])
+            cube([100, 61, 28], center=true);
+        }
+        cylinder(1000, r=55/2, center = true);
+        cylinder(4, r=61/2, center = true);     
     }
 } else {
   translate([anchorpos, anchorpos,-13.6])
@@ -329,8 +322,9 @@ difference() {
 //logo_serli();
 //top_middle();
 //foot();
+foot(true);
 //down_end_black();
-down_end();
+//down_end();
 /*
 translate([0, 0, -25])
 down_middle();
