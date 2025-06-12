@@ -74,6 +74,13 @@ module logo_serli() {
     surface(file = "images/serli-logo.png", center = true);
 };
 
+module logo_itek() {
+    translate([67, 10, 1])
+    scale([1/8, 1/8, 1/128])
+    rotate([0, 0, 180])
+    surface(file = "images/itek-logo.png", center = true);
+};
+
 module top_middle()
 difference() {
     union() {
@@ -87,7 +94,7 @@ difference() {
         translate([60, -22.5, 0])
         cube([2*60+10, 15, 2], center = true);
     }
-    logo_serli();
+    logo_itek();
     button_hole();
     translate([2*60+10, 0, 0])
     button_hole();
@@ -320,9 +327,10 @@ difference() {
 };
 
 //logo_serli();
-//top_middle();
+//logo_itek();
+top_middle();
 //foot();
-foot(true);
+//foot(true);
 //down_end_black();
 //down_end();
 /*
