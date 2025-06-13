@@ -75,8 +75,8 @@ module logo_serli() {
 };
 
 module logo_itek() {
-    translate([67, 10, 1])
-    scale([1/8, 1/8, 1/128])
+    translate([66, 10, 1])
+    scale([1/10.5, 1/10.5, 1/128])
     rotate([0, 0, 180])
     surface(file = "images/itek-logo.png", center = true);
 };
